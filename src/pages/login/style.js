@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:48:43
  * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-10 20:31:13
+ * @LastEditTime : 2020-02-11 21:43:53
  */
 import styled from 'styled-components';
 import BG from "../../statics/loginPage/BG.jpg";

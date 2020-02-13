@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-10 11:05:46
  * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-10 15:24:45
+ * @LastEditTime : 2020-02-11 22:51:34
  */
 const webpackConfigCreator = require('./webpack.common');
 const path = require('path');
@@ -16,7 +16,17 @@ const config = {
   },
   devServer: {
     contentBase: path.join(__dirname, "../dist"),
-    hot: true
+    hot: true,
+    proxy: {
+      '/manage': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/manage': '/manage'
+        }
+      }
+    },
+    // historyApiFallback: true
   },
   devtool: "inline-source-map",
 }
