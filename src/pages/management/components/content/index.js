@@ -4,18 +4,24 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
  * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-12 18:46:35
+ * @LastEditTime : 2020-02-14 23:06:18
  */
 import React,{Component} from 'react';
-import {ContentWrapper} from './style';
+import BlogWriterPanel from './blogWriterPanel';
+import BlogListsPanel from './blogListsPanel';
 
 class Content extends Component{
   render() {
     return (
       <React.Fragment>
-        <ContentWrapper></ContentWrapper>
+        {
+          this.props.moduleName=='/blogSystem/blogWriter'?<BlogWriterPanel/>:''
+        }
+
+        {
+          this.props.moduleName=='/blogSystem/blogRevise'?<BlogListsPanel/>:''
+        }
       </React.Fragment>
-      
     );
   }
 }

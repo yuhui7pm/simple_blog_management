@@ -4,9 +4,9 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
  * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-11 22:39:04
+ * @LastEditTime : 2020-02-14 22:55:20
  */
-import React,{Component} from 'react';
+import React,{Component, Fragment} from 'react';
 import Editor from 'wangeditor';
 
 class blogWriter extends Component{
@@ -24,11 +24,11 @@ class blogWriter extends Component{
     const editor = new Editor(elemMenu,elemBody)
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
-        console.log(editor.txt.html())
         this.setState({
-            // editorContent: editor.txt.text()
             editorContent: editor.txt.html()
         })
+
+        this.props.handleValue(editor.txt.html());
     }
     //配置你的富文本编辑器所需要的功能
     editor.customConfig.menus = [
@@ -55,29 +55,32 @@ class blogWriter extends Component{
     ]
     // 配置当前是否需要设置上传图片在前端转换成base64的
     editor.customConfig.uploadImgShowBase64 = true
-    editor.create()
+    editor.customConfig.autoHeightEnabled = false
+    editor.create();
   };
 
   render() {
     return (
-        <div className="shop">
-            <div className="text-area" >
-                <div ref="editorElemMenu"
-                     style={{backgroundColor:'#f1f1f1',border:"1px solid #ccc"}}
-                     className="editorElem-menu">
-                </div>
-                <div
-                    style={{
-                        padding:"0 10px",
-                        overflowY:"scroll",
-                        height:300,
-                        border:"1px solid #ccc",
-                        borderTop:"none"
-                    }}
-                    ref="editorElemBody" className="editorElem-body">
+        <Fragment>
+            <div className="shop" style={{'display':'inline-block'}}>
+                <div className="text-area" >
+                    <div ref="editorElemMenu"
+                        style={{backgroundColor:'#f1f1f1',border:"1px solid #ccc"}}
+                        className="editorElem-menu">
+                    </div>
+                    <div
+                        style={{
+                            height:300,
+                            border:"1px solid #ccc",
+                            borderTop:"none",
+                            minWidth:800,
+                            fontSize:'20px'
+                        }}
+                        ref="editorElemBody" className="editorElem-body">
+                    </div>
                 </div>
             </div>
-        </div>
+        </Fragment>
     );
   }
 }
