@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
- * @LastEditors  : yuhui
+ * @LastEditors: yuhui
  * @LastEditTime : 2020-02-14 23:06:18
  */
 import React,{Component} from 'react';

@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
- * @LastEditors  : yuhui
+ * @LastEditors: yuhui
  * @LastEditTime : 2020-02-14 23:03:27
  */
 import React,{Component} from 'react';
@@ -45,6 +45,7 @@ class BlogWriterPanel extends Component{
           alert('博客上传失败');
         }else{
           alert('博客上传成功');
+          location.reload();
         }
       }).catch(()=>{
         alert("博客上传异常")

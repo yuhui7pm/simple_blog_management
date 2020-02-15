@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: yuhui
  * @Date: 2020-02-10 11:05:36
- * @LastEditors  : yuhui
+ * @LastEditors: yuhui
  * @LastEditTime : 2020-02-12 16:28:39
  */
 const path = require('path');
@@ -38,7 +38,10 @@ function webpackCommonConfigCreator(options){
         rules:[
           {
             test:/\.(js|jsx)$/,
-            include:path.resolve(__dirname,'../src'),
+            include:[
+              path.resolve(__dirname,'../src'),
+              path.resolve(__dirname,'../node_modules/antd'),
+            ],
             use:[
               {
                 loader:"babel-loader",
