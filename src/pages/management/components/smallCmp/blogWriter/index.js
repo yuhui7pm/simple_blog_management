@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
  * @LastEditors: yuhui
- * @LastEditTime: 2020-03-01 00:44:17
+ * @LastEditTime: 2020-03-01 23:10:44
  */
 import React,{Component, Fragment} from 'react';
 import Editor from 'wangeditor';
@@ -13,23 +13,25 @@ class blogWriter extends Component{
   constructor(props) {
     super(props);
     this.state = {
-        editorContent:''
+        editorContent:'',
+        htmlData:''
      };
   };
-
+  
   //在组件渲染完毕（componentDidMount）之后实例化编辑器：
   componentDidMount() {
     const elemMenu = this.refs.editorElemMenu;
     const elemBody = this.refs.editorElemBody;
     const editor = new Editor(elemMenu,elemBody)
-
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
         this.setState({
             editorContent: editor.txt.html()
         })
-
-        this.props.handleValue(editor.txt.html());
+        
+        if(editor.txt.html()){
+            this.props.handleValue(editor.txt.html());
+        }
     }
     //配置你的富文本编辑器所需要的功能
     editor.customConfig.menus = [
@@ -63,7 +65,9 @@ class blogWriter extends Component{
     editor.create();
 
     //从父组件中传过来的数据
-    editor.txt.html(this.props.blogContentData||'')
+    if(this.props.blogContentData){
+        editor.txt.html(this.props.blogContentData)
+    }
   };
 
   render() {
@@ -79,8 +83,9 @@ class blogWriter extends Component{
                         style={{
                             border:"1px solid #ccc",
                             borderTop:"none",
-                            minWidth:800,
-                            fontSize:'20px'
+                            width:800,
+                            fontSize:'20px',
+                            height:3000
                         }}
                         ref="editorElemBody" className="editorElem-body">
                     </div>

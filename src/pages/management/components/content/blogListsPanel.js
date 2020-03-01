@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-14 23:04:52
  * @LastEditors: yuhui
- * @LastEditTime: 2020-02-29 22:46:06
+ * @LastEditTime: 2020-03-01 21:38:06
  */
 import React,{Component} from 'react';
 import { Table, Divider, Tag } from 'antd';
@@ -117,7 +117,7 @@ class BlogListsPanel extends Component {
           }
         })
         this.setState({
-          blogLists:blogsFiltered
+          blogLists:blogsFiltered.reverse()
         })
       }
     }).catch(()=>{

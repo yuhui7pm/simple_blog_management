@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
  * @LastEditors: yuhui
- * @LastEditTime: 2020-03-01 00:29:26
+ * @LastEditTime: 2020-03-01 23:10:30
  */
 import React,{Component} from 'react';
 import {ContentWrapper} from './style';
@@ -15,13 +15,13 @@ class BlogWriterPanel extends Component{
   constructor(props) {
     super(props);
     this.state={
+      blogId:-1,
       blogTitle:'',
       blogPic:'',
       blogRecommend:'',
       blogMusic:'',
       blogText:'',
       blogStatus:'',
-      blogId:''
     }
   }
   
@@ -32,33 +32,35 @@ class BlogWriterPanel extends Component{
   }
 
   uploadBlog(){    
-    let postUrl;
-    if(this.state.blogStatus){
-      postUrl = '/manage/updateBlog'
-    }else{
-      postUrl = '/manage/uploadBlog'
+    if(this.state.blogText){
+      let postUrl;
+      if(this.state.blogStatus.length>0){
+        postUrl = '/manage/updateBlog'
+      }else{
+        postUrl = '/manage/uploadBlog'
+      }
+      axios.post(postUrl,{
+        blogId:this.state.blogId,
+        blogTitle:this.state.blogTitle,
+        blogPicUrl:this.state.blogPic,
+        blogMusicUrl:this.state.blogMusic,
+        blogRecommend:this.state.blogRecommend,
+        blogHtml:this.state.blogText,
+      },{
+        headers: {
+          'Access-Control-Allow-Origin':'*',  //解决cors头问题
+          'Content-Type': 'application/json'
+      }}).then((res)=>{
+          if(res.data.errNum===-1){
+            alert('博客上传失败');
+          }else{
+            alert('博客上传成功');
+            location.reload();
+          }
+        }).catch(()=>{
+          alert("博客上传异常")
+      })
     }
-    axios.post(postUrl,{
-      blogId:this.state.blogId,
-      blogTitle:this.state.blogTitle,
-      blogPicUrl:this.state.blogPic,
-      blogMusicUrl:this.state.blogMusic,
-      blogRecommend:this.state.blogRecommend,
-      blogHtml:this.state.blogText,
-    },{
-      headers: {
-        'Access-Control-Allow-Origin':'*',  //解决cors头问题
-        'Content-Type': 'application/json'
-    }}).then((res)=>{
-        if(res.data.errNum===-1){
-          alert('博客上传失败');
-        }else{
-          alert('博客上传成功');
-          location.reload();
-        }
-      }).catch(()=>{
-        alert("博客上传异常")
-    })
   }
 
   //点击修改博客数据，从后台获取数据到wangEditor页面
@@ -71,7 +73,6 @@ class BlogWriterPanel extends Component{
       if(res.data.errNum===0){
         let dataOld = res.data.data;
         let dat = dataOld[0]
-        // console.log(dat);
         this.setState({
           blogTitle:dat.title,
           blogPic:dat.picurl,
@@ -123,7 +124,7 @@ class BlogWriterPanel extends Component{
             <input 
               className = 'blogMusicUrl'
               style={{'width':'700px','height':'50px','lineHeight':'50px','fontSize':'24px','padding':'0 8px'}}
-              value = {this.state.blogStatus?this.state.blogMusic:''}
+              value = {this.state.blogMusic||''}
               onChange={(e) => {
                 this.setState({
                   blogMusic: e.target.value,
@@ -151,8 +152,8 @@ class BlogWriterPanel extends Component{
             {/* 必须要加判断因为是异步的 */}
             {
               this.state.blogStatus?(
-                this.state.blogText?<BlogWriter blogContentData={this.state.blogText} handleValue={this.handleGet.bind(this)}/>:''
-              ):<BlogWriter blogContentData={this.state.blogText} handleValue={this.handleGet.bind(this)}/>
+                this.state.blogText&&<BlogWriter blogContentData={this.state.blogText} handleValue={this.handleGet.bind(this)}/>
+              ):<BlogWriter handleValue={this.handleGet.bind(this)}/>
             }
           </div>
           <button type="button" 
@@ -167,10 +168,14 @@ class BlogWriterPanel extends Component{
   componentDidMount(){
     const blogData = this.props.blogData;
     const timeStamp = blogData.timeStamp;
-    this.setState({
-      blogStatus:'更新博客数据'
-    })
-    this.getBlogData(timeStamp)
+    if(blogData){
+      this.setState({
+        blogStatus:'更新博客数据'
+      })
+      this.getBlogData(timeStamp)
+    }else{
+      console.log('新建博客');
+    }
   }
 }
 export default BlogWriterPanel;

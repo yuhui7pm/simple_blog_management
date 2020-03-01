@@ -23,7 +23,6 @@ class ManagementSys extends Component{
 
   // 获取模糊搜索选择的数据
   childValue = (data)=>{
-    console.log(data,this.state.moduleName);
     this.setState({
       moduleName: data,
     })
