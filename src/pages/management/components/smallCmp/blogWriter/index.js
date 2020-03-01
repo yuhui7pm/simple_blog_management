@@ -3,8 +3,8 @@
  * @version: 1.0
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
- * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-14 22:55:20
+ * @LastEditors: yuhui
+ * @LastEditTime: 2020-03-01 00:44:17
  */
 import React,{Component, Fragment} from 'react';
 import Editor from 'wangeditor';
@@ -22,6 +22,7 @@ class blogWriter extends Component{
     const elemMenu = this.refs.editorElemMenu;
     const elemBody = this.refs.editorElemBody;
     const editor = new Editor(elemMenu,elemBody)
+
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
         this.setState({
@@ -53,10 +54,16 @@ class blogWriter extends Component{
         'undo',  // 撤销
         'redo'  // 重复
     ]
-    // 配置当前是否需要设置上传图片在前端转换成base64的
     editor.customConfig.uploadImgShowBase64 = true
-    editor.customConfig.autoHeightEnabled = false
+    // editor.customConfig.uploadImgServer = '/blogImg' //设置上传文件的服务器路径
+    // editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+	// editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+
+    editor.customConfig.autoHeightEnabled = true
     editor.create();
+
+    //从父组件中传过来的数据
+    editor.txt.html(this.props.blogContentData||'')
   };
 
   render() {
@@ -70,7 +77,6 @@ class blogWriter extends Component{
                     </div>
                     <div
                         style={{
-                            height:300,
                             border:"1px solid #ccc",
                             borderTop:"none",
                             minWidth:800,

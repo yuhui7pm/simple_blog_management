@@ -3,8 +3,8 @@
  * @version: 1.0
  * @Author: yuhui
  * @Date: 2020-02-10 11:05:46
- * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-11 22:51:34
+ * @LastEditors: yuhui
+ * @LastEditTime: 2020-03-01 01:00:11
  */
 const webpackConfigCreator = require('./webpack.common');
 const path = require('path');
@@ -28,7 +28,7 @@ const config = {
     },
     // historyApiFallback: true
   },
-  devtool: "inline-source-map",
+  // devtool: "inline-source-map",
 }
 
 const options = {

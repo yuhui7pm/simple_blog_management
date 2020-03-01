@@ -3,8 +3,8 @@
  * @version: 1.0
  * @Author: yuhui
  * @Date: 2020-02-10 11:05:58
- * @LastEditors  : yuhui
- * @LastEditTime : 2020-02-10 15:30:29
+ * @LastEditors: yuhui
+ * @LastEditTime: 2020-03-01 00:58:06
  */
 const webpackConfigCreator = require('./webpack.common');
 const merge = require('webpack-merge');
@@ -23,7 +23,7 @@ const config = {
     }),
     new ManifestPlugin(),
   ],
-  devtool: "source-map",
+  // devtool: "source-map",
 }
 
 const options = {

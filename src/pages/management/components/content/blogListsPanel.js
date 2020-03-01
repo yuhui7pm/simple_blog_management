@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-14 23:04:52
  * @LastEditors: yuhui
- * @LastEditTime: 2020-02-15 16:55:46
+ * @LastEditTime: 2020-02-29 22:46:06
  */
 import React,{Component} from 'react';
 import { Table, Divider, Tag } from 'antd';
@@ -62,9 +62,9 @@ class BlogListsPanel extends Component {
       {
         title: '操作',
         key: 'action',
-        render: (text, record) => (
+        render: (record) => (
           <span>
-            <a>更改</a>
+            <a onClick={this.blogEdit.bind(this,record)}>更改</a>
             <Divider type="vertical" />
             <a onClick={this.deleteBlog.bind(this,record)}>删除</a>
           </span>
@@ -73,6 +73,9 @@ class BlogListsPanel extends Component {
     ];  
   }
   
+  blogEdit(record){
+    this.props.changeBlogData(record);
+  }
   deleteBlog(blog){
     axios.post('/manage/deleteBlog',{
       blogId:blog.key,
@@ -103,7 +106,6 @@ class BlogListsPanel extends Component {
     axios.get('/manage/getBlogLists').then((res)=>{
       if(res.data.errNum===0){
         let dat = res.data.data;
-        // console.log('res.data:',dat);
         let blogsFiltered = dat.map((item,index)=>{
           return {
             id:index+1,
