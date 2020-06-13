@@ -4,10 +4,12 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
  * @LastEditors: yuhui
- * @LastEditTime: 2020-03-01 23:10:44
+ * @LastEditTime: 2020-03-08 21:27:16
  */
 import React,{Component, Fragment} from 'react';
 import Editor from 'wangeditor';
+import axios from 'axios';
+import qs from 'qs';
 
 class blogWriter extends Component{
   constructor(props) {
@@ -18,8 +20,12 @@ class blogWriter extends Component{
      };
   };
   
-  //在组件渲染完毕（componentDidMount）之后实例化编辑器：
   componentDidMount() {
+    this.initEditor()
+  };
+
+  //在组件渲染完毕（componentDidMount）之后实例化编辑器：
+  initEditor(){
     const elemMenu = this.refs.editorElemMenu;
     const elemBody = this.refs.editorElemBody;
     const editor = new Editor(elemMenu,elemBody)
@@ -57,9 +63,55 @@ class blogWriter extends Component{
         'redo'  // 重复
     ]
     editor.customConfig.uploadImgShowBase64 = true
-    // editor.customConfig.uploadImgServer = '/blogImg' //设置上传文件的服务器路径
+    // editor.customConfig.uploadImgServer = '/picture' //设置上传文件的服务器路径
     // editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-	// editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    // editor.customConfig.pasteFilterStyle = true
+    editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024; // 将图片大小限制为 10M
+
+    // editor.customConfig.customUploadImg = (files, insert) => {
+    //     if(files[0]){
+    //         axios.post('/manage/picture', {
+    //             data:qs.stringify({
+    //             file:files[0],
+    //             path:'/picture'
+    //         })},{
+    //             headers: {
+    //                 'Access-Control-Allow-Origin':'*',  //解决cors头问题
+    //                 'Access-Control-Allow-Credentials':'true', //解决session问题
+    //           }}).then(res => {
+    //                 const result = res.data;
+    //                 if (result.code === '000000') {
+    //                 const data = result.data;
+    //                 insert(data);
+    //             }
+    //         });
+    //     }
+    // };
+
+    // editor.customConfig.customUploadImg = function (files, insert) {
+    //     console.log(files)
+    //     if (files[0]) {
+    //         const formData = new window.FormData()
+    //         formData.append('file', files[0], 'cover.jpg')
+    //         fetch('/manage/picture', {
+    //             method: 'POST',
+    //             contentType: false,
+    //             body: formData
+    //         }).then((res) => {
+    //             return res.json()
+    //         }).then((res) => {
+    //             if (res.flag) {
+    //                 // 这里你的后台可能不是我这样的对象属性，后面会带我的node后台，请自行参考
+    //                 insert(res.path)
+    //             } else {
+    //                 console.log(res)
+    //             }
+    //         })
+    //     } else {
+    //         console.info('请选择想上传的图片')
+    //     }
+    // }
+
 
     editor.customConfig.autoHeightEnabled = true
     editor.create();
@@ -68,7 +120,7 @@ class blogWriter extends Component{
     if(this.props.blogContentData){
         editor.txt.html(this.props.blogContentData)
     }
-  };
+  }
 
   render() {
     return (

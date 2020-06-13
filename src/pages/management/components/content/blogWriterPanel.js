@@ -4,7 +4,7 @@
  * @Author: yuhui
  * @Date: 2020-02-10 16:31:27
  * @LastEditors: yuhui
- * @LastEditTime: 2020-03-01 23:10:30
+ * @LastEditTime: 2020-03-08 22:31:48
  */
 import React,{Component} from 'react';
 import {ContentWrapper} from './style';
@@ -22,6 +22,7 @@ class BlogWriterPanel extends Component{
       blogMusic:'',
       blogText:'',
       blogStatus:'',
+      createtime:'',
     }
   }
   
@@ -46,6 +47,7 @@ class BlogWriterPanel extends Component{
         blogMusicUrl:this.state.blogMusic,
         blogRecommend:this.state.blogRecommend,
         blogHtml:this.state.blogText,
+        createtime:this.state.createtime,
       },{
         headers: {
           'Access-Control-Allow-Origin':'*',  //解决cors头问题
@@ -72,14 +74,15 @@ class BlogWriterPanel extends Component{
     }).then((res)=>{
       if(res.data.errNum===0){
         let dataOld = res.data.data;
-        let dat = dataOld[0]
+        let dat = dataOld[0];
         this.setState({
           blogTitle:dat.title,
           blogPic:dat.picurl,
           blogRecommend:dat.introduction,
           blogMusic:dat.musicurl,
           blogText:dat.context,
-          blogId:dat.id
+          blogId:dat.id,
+          createtime:dat.createtime
         })
       }
     }).catch(()=>{
